@@ -1,0 +1,34 @@
+version: '3'
+services:
+  raspberry:
+    build: 
+        context: .
+        dockerfile: Dockerfile_raspberry
+    depends_on:
+      - mosquitto  
+    environment:
+      - PYTHONUNBUFFERED=1
+    network_mode: host
+  arduino:
+    build: 
+        context: .
+        dockerfile: Dockerfile_arduino
+    depends_on:
+      - mosquitto  
+    environment:
+      - PYTHONUNBUFFERED=1
+  water:
+    build: 
+        context: .
+        dockerfile: Dockerfile_water
+    depends_on:
+      - mosquitto  
+    environment:
+      - PYTHONUNBUFFERED=1
+
+
+  mosquitto:
+    image: "eclipse-mosquitto:latest"
+    hostname: "mosquitto"
+    ports:
+      - "1883:1883"
